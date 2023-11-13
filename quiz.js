@@ -44,13 +44,22 @@ const quesJSON = [
 // it stores the overall scores
 let score = 0;
 let currQuestion = 0;
+const totalScore = quesJSON.length * 4;
 
+// fetch all the elements
 const questionEl = document.getElementById("question");
 const optionEl = document.getElementById("options");
 const scoreEl = document.getElementById("score");
 const resultEl = document.getElementById("result");
+const nextBtn = document.getElementById("next");
 
 shaowAllQuestions();
+
+// move to next question
+nextBtn.addEventListener("click", () => {
+  scoreEl.textContent = `Score: ${score}/${totalScore}`;
+  nextQuestion();
+});
 
 // display all the questions
 function shaowAllQuestions() {
@@ -74,7 +83,7 @@ function shaowAllQuestions() {
       } else {
         score -= 2;
       }
-      scoreEl.textContent = `Score: ${score}/20`;
+      scoreEl.textContent = `Score: ${score}/${totalScore}`;
       nextQuestion();
     });
   });
@@ -85,9 +94,10 @@ function nextQuestion() {
   optionEl.textContent = "";
   if (currQuestion >= quesJSON.length) {
     questionEl.textContent = "Quiz Completed!!!";
-    if (score >= (4 * currQuestion) / 3) {
-      resultEl.textContent = "Pass";
-    } else resultEl.textContent = "Fail";
+    nextBtn.remove();
+    if (score >= totalScore / 3) {
+      resultEl.textContent = "Result: Pass";
+    } else resultEl.textContent = "Result: Fail";
   } else {
     shaowAllQuestions();
   }
